@@ -1,0 +1,13 @@
+Generating Frequent Pattern-Growth
+To generate frequent pattern-growth, we do the following:
+
+In the first scan of the database, we try to find the minimum support of itemsets.
+If the frequency of items is less than the specified minimum support, we simply delete them from the database.
+The set of frequent items is sorted in the descending order of support.
+Then, an FP-tree is constructed.
+The initial node of the FP-tree is called the root node. It is labeled null.
+The items in the transactions are processed when the node is created.
+Whenever we try to pass the itemset, we can create a child node and expand it if the itemset follows the root node.
+If a branch encounters a common prefix for the existing path, we increment the value of the root node.
+We repeat the process for each itemset until we reach the end of the itemsets in the transaction.
+To facilitate tree traversal, we build an item header table so that each item points to occurrences in thetree via a chain of node-links.
