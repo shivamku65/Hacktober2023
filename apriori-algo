@@ -1,0 +1,4 @@
+Step 1: Determine the level of transactional database support and establish the minimal degree of assistance and dependability.
+Step 2: Take all of the transaction's supports that are greater than the standard or chosen support value. 
+Step 3: Look for all rules with greater precision than the cutoff or baseline standard, in these subgroups.
+Step 4: It is best to arrange the rules in ascending order of strength.
