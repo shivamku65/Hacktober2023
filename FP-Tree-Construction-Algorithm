@@ -1,0 +1,27 @@
+FP-tree construction
+
+Input: A transaction database DB and a minimum support threshold?
+
+Output: FP-tree, the frequent-pattern tree of DB.
+
+Method: The FP-tree is constructed as follows.
+
+1.The first step is to scan the database to find the occurrences of the itemsets in the database. This step is the same as the first step of Apriori. The count of 1-itemsets in the database is called support count or frequency of 1-itemset.
+
+2.The second step is to construct the FP tree. For this, create the root of the tree. The root is represented by null.
+
+3.The next step is to scan the database again and examine the transactions. Examine the first transaction and find out the itemset in it. The itemset with the max count is taken at the top, and then the next itemset with the lower count. It means that the branch of the tree is constructed with transaction itemsets in descending order of count.
+
+4.The next transaction in the database is examined. The itemsets are ordered in descending order of count. If any itemset of this transaction is already present in another branch, then this transaction branch would share a common prefix to the root.
+This means that the common itemset is linked to the new node of another itemset in this transaction.
+
+5.Also, the count of the itemset is incremented as it occurs in the transactions. The common node and new node count are increased by 1 as they are created and linked according to transactions.
+
+6.The next step is to mine the created FP Tree. For this, the lowest node is examined first, along with the links of the lowest nodes. The lowest node represents the frequency pattern length 1. From this, traverse the path in the FP Tree. This path or paths is called a conditional pattern base.
+A conditional pattern base is a sub-database consisting of prefix paths in the FP tree occurring with the lowest node (suffix).
+
+7.Construct a Conditional FP Tree, formed by a count of itemsets in the path. The itemsets meeting the threshold support are considered in the Conditional FP Tree.
+
+8.Frequent Patterns are generated from the Conditional FP Tree.
+
+Using this algorithm, the FP-tree is constructed in two database scans. The first scan collects and sorts the set of frequent items, and the second constructs the FP-Tree.
