@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+#include <curl/curl.h>
+#include <gtest/gtest.h>
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
+    size_t total_size = size * nmemb;
+    output->append(static_cast<char*>(contents), total_size);
+    return total_size;
+}
+std::string MakeHttpGetRequest(const std::string& url) {
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        throw std::runtime_error("Failed to initialize cURL.");
+    }
+
+    std::string response_data;
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_data);
+
+    CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        throw std::runtime_error("cURL request failed: " + std::string(curl_easy_strerror(res)));
+    }
+
+    curl_easy_cleanup(curl);
+    
+    return response_data;
+}
+class ApiTest : public ::testing::Test {
+protected:
+    virtual void SetUp() {
+    }
+
+    virtual void TearDown() {
+    }
+};
+TEST_F(ApiTest, TestApiRequest) {
+    std::string api_url = "https://api.example.com/data";
+    std::string response = MakeHttpGetRequest(api_url);
+    ASSERT_FALSE(response.empty());
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
