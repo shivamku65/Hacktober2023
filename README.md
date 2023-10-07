@@ -1,1 +1,0 @@
-# Hacktober2023
